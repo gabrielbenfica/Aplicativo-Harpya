@@ -105,6 +105,15 @@ button:hover {
   text-decoration: none;
 }
 
+/* Link "novo usuário" */
+.novo-usuario {
+  font-size: 0.9rem;
+  color: white;
+  display: block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
 .esqueci-senha:hover {
   text-decoration: underline;
 }
