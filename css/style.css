@@ -8,15 +8,16 @@
 body, html {
   height: 100%;
   font-family: Arial, sans-serif;
+  overflow: hidden; /* Impede o scroll da página inteira */
 }
 
 /* Fundo escuro com overlay e imagem central */
 body {
-  background-color: #0d1c36; /* azul escuro uniforme nas laterais */
+  background-color: #0d1c36;
   background-image: url('../assets/logo.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover; /* preenche a tela toda */
+  background-size: cover;
   position: relative;
 }
 
@@ -27,7 +28,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(13, 28, 54, 0.8); /* Azul escuro com 80% opacidade */
+  background-color: rgba(13, 28, 54, 0.8);
   z-index: 0;
 }
 
@@ -37,16 +38,19 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: relative;
+  position: fixed; /* Fixa o container em relação à janela */
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1;
 }
 
 /* Caixa de login */
 .login-box {
-  background-color: rgba(255, 255, 255, 0.05); /* leve transparência */
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   width: 90%;
   max-width: 350px;
   text-align: center;
@@ -57,9 +61,9 @@ body {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 50%; /* deixa redondo */
+  border-radius: 50%;
   margin-bottom: 1.5rem;
-  border: 2px solid white; /* opcional: borda branca */
+  border: 2px solid white;
 }
 
 /* Inputs */
@@ -105,13 +109,24 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Responsividade extra opcional */
+/* Responsividade extra */
 @media (min-width: 768px) {
   .login-box {
     padding: 3rem;
   }
+}
 
+/* Ajuste para telas pequenas (evitar overflow em inputs) */
+@media (max-height: 600px) {
+  .login-box {
+    padding: 1.5rem;
+  }
   .logo-login {
-    width: 100px;
+    width: 60px;
+    height: 60px;
+  }
+  input, button {
+    padding: 0.7rem;
+    font-size: 0.9rem;
   }
 }
