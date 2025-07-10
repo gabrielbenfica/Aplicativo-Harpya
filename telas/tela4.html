@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Harpya</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <header class="dashboard-header">
+      <div class="menu-icon">&#9776;</div>
+      <img src="../assets/logo.png" class="logo-topo" alt="Logo Harpya" />
+    </header>
+
+<main class="dashboard-main">
+<h2 class="titulo-tabela">Últimos acessos</h2>  
+  <div class="dashboard-box">
+    <table class="access-table">
+      <thead>
+        <tr>
+          <th>Acesso</th>
+          <th>Data e Hora</th>
+          <th>Local</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>16516515</td><td>04/07/2025 08:17:34</td><td>Blumenau/SC</td></tr>
+        <tr><td>16516515</td><td>04/07/2025 10:25:24</td><td>Blumenau/SC</td></tr>
+        <tr><td>16516515</td><td>04/07/2025 11:12:46</td><td>Blumenau/SC</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+<h2 class="titulo-grafico">Acessos por dia</h2>  
+<div class="dashboard-box dashboard-grafico">
+  <canvas id="acessosGrafico"></canvas>
+</div>
+
+
+
+  </div>
+
+  <script>
+    const ctx = document.getElementById('acessosGrafico').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['01/07/2025', '02/07/2025', '03/07/2025', '04/07/2025', '05/07/2025'],
+        datasets: [{
+          label: 'Número de acessos',
+          data: [5, 8, 12, 7, 3],
+          borderColor: '#03e9f4',
+          backgroundColor: 'rgba(3, 233, 244, 0.2)',
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { color: '#fff' } },
+          x: { ticks: { color: '#fff' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
