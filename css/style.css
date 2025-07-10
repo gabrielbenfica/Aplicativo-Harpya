@@ -6,9 +6,11 @@
 }
 
 body, html {
-  height: 100%;
+  width: 100%;
+  overflow-x: hidden;     /* ❌ bloqueia rolagem lateral */
+  overflow-y: auto;       /* ✅ permite rolar para cima e baixo */
+  min-height: 100vh;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* Impede o scroll da página inteira */
 }
 
 /* Fundo escuro com overlay e imagem central */
@@ -146,6 +148,7 @@ button:hover {
 
 .logo-topo {
   width: 50px;
+  border-radius: 50%;
 }
 
 .dashboard-box {
@@ -198,10 +201,12 @@ button:hover {
 .access-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto; /* 🔹 centraliza horizontalmente */
   background-color: rgba(255,255,255,0.05);
   border-radius: 8px;
   overflow: hidden;
+  text-size-adjust: 90%; /* 🔹 garante que o texto se ajuste corretamente */
+  table-layout: fixed; /* 🔹 força colunas a usarem espaço proporcional */
 }
 
 .access-table thead {
@@ -219,6 +224,127 @@ canvas#acessosGrafico {
   max-width: 100%;
   height: 250px;
   width: 100%;
+}
+
+.logo-wrapper {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  display: none;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  
+  
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  margin: 0.0rem 0;
+  padding: 0%;
+}
+
+.dropdown-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  text-decoration: underline;
+}
+
+.menu-wrapper {
+  position: relative;
+}
+
+#menuLateral {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  display: none;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#menuLateral ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#menuLateral li {
+  margin: 0.0rem 0;
+  padding: 0%;
+
+}
+
+#menuLateral a {
+  color: white;
+  text-decoration: none;
+  
+}
+
+#menuLateral a:hover {
+  text-decoration: underline;
+  
+}
+
+.menu-wrapper {
+  position: relative;
+  
+}
+
+#menuLateral {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem 4rem;
+  display: none;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#menuLateral ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.0rem; /* Diminui o espaço entre as linhas */
+}
+
+#menuLateral li {
+  margin: 0.5rem 0;
+}
+
+#menuLateral a {
+  color: white;
+  text-decoration: none;
+}
+
+#menuLateral a:hover {
+  text-decoration: underline;
 }
 
 /* Ajuste para telas pequenas (evitar overflow em inputs) */

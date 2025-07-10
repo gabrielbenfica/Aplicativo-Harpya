@@ -7,15 +7,30 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
 </head>
 <body>
   <div class="dashboard-container">
 
-    <header class="dashboard-header">
-      <div class="menu-icon">&#9776;</div>
-      <img src="../assets/logo.png" class="logo-topo" alt="Logo Harpya" />
-    </header>
+<header class="dashboard-header">
+<div class="menu-wrapper">
+  <div class="menu-icon" onclick="toggleMenuLateral()">&#9776;</div>
+  <div class="dropdown-menu" id="menuLateral">
+    <ul>
+      <li><a href="#">Aplicativos</a></li>
+      <li><a href="#">Usuários</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="logo-wrapper">
+    <img src="../assets/logo.png" class="logo-topo" alt="Logo Harpya" onclick="toggleMenu()" />
+    <div class="dropdown-menu" id="menuUsuario">
+      <ul>
+        <li><a href="#">Conta</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
 
 <main class="dashboard-main">
 <h2 class="titulo-tabela">Últimos acessos</h2>  
@@ -46,28 +61,66 @@
   </div>
 
   <script>
-    const ctx = document.getElementById('acessosGrafico').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['01/07/2025', '02/07/2025', '03/07/2025', '04/07/2025', '05/07/2025'],
-        datasets: [{
-          label: 'Número de acessos',
-          data: [5, 8, 12, 7, 3],
-          borderColor: '#03e9f4',
-          backgroundColor: 'rgba(3, 233, 244, 0.2)',
-          tension: 0.4
-        }]
+  // CHART JS
+  const ctx = document.getElementById('acessosGrafico').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['01/07/2025', '02/07/2025', '03/07/2025', '04/07/2025', '05/07/2025'],
+      datasets: [{
+        label: 'Número de acessos',
+        data: [5, 8, 12, 7, 3],
+        borderColor: '#03e9f4',
+        backgroundColor: 'rgba(3, 233, 244, 0.2)',
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false }
       },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { color: '#fff' } },
-          x: { ticks: { color: '#fff' } }
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#fff' }
+        },
+        x: {
+          ticks: { color: '#fff' }
         }
       }
-    });
-  </script>
+    }
+  });
+
+  // MENU DA LOGO
+  function toggleMenu() {
+    const menu = document.getElementById('menuUsuario');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // MENU DO ÍCONE ☰
+  function toggleMenuLateral() {
+    const menu = document.getElementById('menuLateral');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Fechar ambos os menus ao clicar fora
+  document.addEventListener('click', function (event) {
+    const logo = document.querySelector('.logo-topo');
+    const menuUsuario = document.getElementById('menuUsuario');
+    const icon = document.querySelector('.menu-icon');
+    const menuLateral = document.getElementById('menuLateral');
+
+    if (!logo.contains(event.target) && !menuUsuario.contains(event.target)) {
+      menuUsuario.style.display = 'none';
+    }
+
+    if (!icon.contains(event.target) && !menuLateral.contains(event.target)) {
+      menuLateral.style.display = 'none';
+    }
+  });
+</script>
+
 </body>
 </html>
