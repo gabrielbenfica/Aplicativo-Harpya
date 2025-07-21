@@ -7,69 +7,149 @@
 
   let dados = []
 
-  // Função para criar gráfico
-  function criarGrafico(labels, data) {
-    // se já existir gráfico, destruir para recriar
-    if(window.grafico) window.grafico.destroy()
+  function criarGrafico(labels, total, diferentes, locaisDiferentes) {
+    if (window.grafico) window.grafico.destroy()
 
     window.grafico = new Chart(ctx, {
-      type: 'line',
       data: {
         labels,
-        datasets: [{
-          data,
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: '#007bff',
-          borderWidth: 2,
-          fill: false,
-          pointBackgroundColor: '#007bff'
-        }]
+        datasets: [
+          {
+            type: 'line',
+            label: 'Total Acessos',
+            data: total,
+            borderColor: '#007bff',
+            backgroundColor: 'transparent',
+            fill: false,
+            tension: 0,
+            pointBackgroundColor: '#007bff',
+            yAxisID: 'y'
+          },
+          {
+            type: 'bar',
+            label: 'Acessos IP Diferente',
+            data: diferentes,
+            backgroundColor: '#28a745',
+            yAxisID: 'y',
+            barPercentage: 0.5,
+            categoryPercentage: 0.7
+          },
+          {
+            type: 'bar',
+            label: 'Acessos IP e Localização Diferentes',
+            data: locaisDiferentes,
+            backgroundColor: '#dc3545',
+            yAxisID: 'y',
+            barPercentage: 0.5,
+            categoryPercentage: 0.7
+          }
+        ]
       },
       options: {
         plugins: {
-          legend: { display: false },
-          tooltip: { boxPadding: 3 }
+          legend: { display: true },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Data' }
+          },
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+            title: { display: true, text: 'Total Acessos (linha)' },
+            beginAtZero: true
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: 'Acessos Diferentes (colunas)' },
+            beginAtZero: true,
+            max: 3
+          }
         }
       }
     })
   }
 
-  // Função para filtrar dados por mês e ano
-  function filtrarDados(mes, ano) {
-    return dados.filter(item => {
-      const [dd, mm, yyyy] = item.dia.split('/')
+  function filtrarEAgruparDados(mes, ano) {
+    const dadosFiltrados = dados.filter(item => {
+      const [dd, mm, yyyy] = item.data.split('/')
       return Number(mm) === mes && Number(yyyy) === ano
     })
+
+    const somaPorDia = {}
+
+    dadosFiltrados.forEach(item => {
+      const dia = item.data
+      if (!somaPorDia[dia]) {
+        somaPorDia[dia] = {
+          total: 0,
+          diferentes: 0,
+          locaisDiferentes: 0
+        }
+      }
+
+      const acessosNum = Number(item.acessos)
+      somaPorDia[dia].total += acessosNum
+
+      if (item.ip !== "192.168.45.103") {
+        somaPorDia[dia].diferentes += acessosNum
+      }
+
+      if (
+        item.ip !== "192.168.45.103" &&
+        item.localizacao !== "Rua das Flores, 123, Bairro Primavera, Sao Paulo, SP, Brasil"
+      ) {
+        somaPorDia[dia].locaisDiferentes += acessosNum
+      }
+    })
+
+    const datasOrdenadas = Object.keys(somaPorDia).sort((a, b) => {
+      const [d1, m1, y1] = a.split('/')
+      const [d2, m2, y2] = b.split('/')
+      return (y1 + m1 + d1).localeCompare(y2 + m2 + d2)
+    })
+
+    const labels = datasOrdenadas
+    const total = datasOrdenadas.map(d => somaPorDia[d].total)
+    const diferentes = datasOrdenadas.map(d => somaPorDia[d].diferentes)
+    const locaisDiferentes = datasOrdenadas.map(d => somaPorDia[d].locaisDiferentes)
+
+    return { labels, total, diferentes, locaisDiferentes }
   }
 
-  // Atualiza gráfico conforme seleção
   function atualizarGrafico() {
     const mes = Number(mesSelect.value)
     const ano = Number(anoSelect.value)
-    const dadosFiltrados = filtrarDados(mes, ano)
-    const labels = dadosFiltrados.map(item => item.dia)
-    const data = dadosFiltrados.map(item => item.valor)
-    criarGrafico(labels, data)
+
+    const { labels, total, diferentes, locaisDiferentes } = filtrarEAgruparDados(mes, ano)
+    criarGrafico(labels, total, diferentes, locaisDiferentes)
   }
 
-  // Carrega CSV e inicializa
-  fetch('../assets/data/dados.csv')
+  fetch('../assets/data/tabela.csv')
     .then(response => response.text())
-    .then(text => {
-      const linhas = text.trim().split('\n')
-      dados = []
+    .then(csvText => {
+      const resultado = Papa.parse(csvText, {
+        delimiter: ";",
+        header: false,
+        skipEmptyLines: true
+      })
 
-      for(let i = 1; i < linhas.length; i++) {
-        const [dia, valor] = linhas[i].split(',')
-        dados.push({ dia, valor: Number(valor) })
-      }
+      dados = resultado.data.map(linha => ({
+        data: linha[0],
+        acessos: linha[1],
+        ip: linha[2],
+        localizacao: linha[3]
+      }))
 
       atualizarGrafico()
     })
     .catch(err => console.error('Erro ao carregar CSV:', err))
 
-  // Event listeners para filtros
   mesSelect.addEventListener('change', atualizarGrafico)
   anoSelect.addEventListener('change', atualizarGrafico)
 

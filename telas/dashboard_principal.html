@@ -10,6 +10,7 @@
     <title>Dashboard Template · Bootstrap v5.3</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
     <script src="../assets/js/color-modes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="theme-color" content="#712cf9">
     <link href="..\css\usuario.css" rel="stylesheet">
@@ -325,7 +326,7 @@
                     <div class="card text-bg-success h-100">
                     <div class="card-body">
                         <h5 class="card-title">Acessos ao sistema</h5>
-                        <p class="card-text display-6">73</p>
+                        <p id="totalAcessos" class="card-text display-6">73</p>
                     </div>
                     </div>
                 </div>
@@ -333,7 +334,7 @@
                     <div class="card text-bg-warning h-100">
                     <div class="card-body">
                         <h5 class="card-title">Acessos com IPs diferentes</h5>
-                        <p class="card-text display-6">1</p>
+                        <p id="totalAcessosDiferentes" class="card-text display-6">1</p>
                     </div>
                     </div>
                 </div>
@@ -341,7 +342,7 @@
                     <div class="card text-bg-danger h-100">
                     <div class="card-body">
                         <h5 class="card-title">Acessos com IPs e localização diferentes</h5>
-                        <p class="card-text display-6">1</p>
+                        <p id="totalAcessosLocalizaçãoDiferentes" class="card-text display-6">1</p>
                     </div>
                     </div>
                 </div>
@@ -372,66 +373,16 @@
                     <canvas id="myChart" width="500" height="100"></canvas>
                 <h2>Controle de Acessos</h2>
                 <div class="table-responsive small">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="tabelaAcessos">
                         <thead>
                             <tr>
-                                <th scope="col">Acessos</th>
-                                <th scope="col">Dia da Semana</th>
                                 <th scope="col">Data</th>
+                                <th scope="col">Acessos</th>
                                 <th scope="col">IP</th>
                                 <th scope="col">Localização</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>Domingo</td>
-                                <td>13/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Segunda-Feira</td>
-                                <td>14/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>15</td>
-                                <td>Terça-Feira</td>
-                                <td>15/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>25</td>
-                                <td>Quarta-Feira</td>
-                                <td>16/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Quinta-Feira</td>
-                                <td>17/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>Sexta-Feira</td>
-                                <td>18/07/2025</td>
-                                <td>192.168.45.103</td>
-                                <td>Rua das Flores, 123 – Bairro Primavera, São Paulo, SP, Brasil</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Sábado</td>
-                                <td>19/07/2025</td>
-                                <td>10.12.87.201</td>
-                                <td>Avenida do Sol, 987 – Centro, Lisboa, Portugal</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -443,6 +394,7 @@
         integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"
         class="astro-vvvwv3sm"></script>
     <script src="..\Scripts\dashboard.js" class="astro-vvvwv3sm"></script>
+    <script src="..\Scripts\tabela.js"></script>
 </body>
 
 </html>
