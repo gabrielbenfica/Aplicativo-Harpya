@@ -8,8 +8,8 @@
  * Sidebar
  */
 
-@media (min-width: 768px) {
-  .sidebar{
+@media (min-width: 992px) {
+  .sidebar  {
     position: -webkit-sticky;
     position: fixed;
     top: 48px;
