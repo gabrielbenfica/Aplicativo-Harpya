@@ -8,13 +8,12 @@
  * Sidebar
  */
 
-@media (min-width: 768px) {
-  .sidebar{
+@media (min-width: 992px) {
+  .sidebar .offcanvas-lg {
     position: -webkit-sticky;
-    position: fixed;
-    top: 48px;
+    position: sticky;
     height: 100vh;
-    width: 198px;
+    top: 48px;
   }
   .navbar-search {
     display: block;
