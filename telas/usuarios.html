@@ -308,62 +308,52 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard Principal</h1>
+                    <h1 class="h2">Usuários</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                     </div>
-                </div> 
-                <div class="row mb-4">
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                    <button type="button" class="btn btn-primary btn-lg d-flex gap-2" style="align-items: center;">
+                    <button type="button" class="btn btn-primary btn-lg d-flex gap-2" data-bs-toggle="modal" data-bs-target="#modalAddUser" style="align-items: center;">
                         <i class="bi bi-person-add" style="font-size: 1rem; color: #fff; line-height: 1;"></i>
                         <span style="line-height: 1;">Adicionar Usuários</span>
                     </button>
-                    </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Rafael Tomé</h5>
-                        <i class="bi bi-person-check-fill" style="font-size: 2rem; color: #E4405F;" ></i>
-                        <p class="card-text"></p>
-                        <a href="#" class="dropdown-menu">Go somewhere</a>
-                        <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Configuração
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Atualizar login e senha</a></li>
-                            <li><a class="dropdown-item" href="#">Atualizar reconhecimento facial</a></li>
-                            <li><a class="dropdown-item" href="#">Desativar</a></li>
-                        </ul>
+                </div> 
+                <div class="row" id="cardContainer"> <!-- <- ID necessário aqui -->
+                </div> 
+                                    <!-- Modal: Adicionar Usuário -->
+                    <div class="modal fade" id="modalAddUser" tabindex="-1" aria-labelledby="modalAddUserLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-3 shadow">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="modalAddUserLabel">Adicionar Novo Usuário</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <form id="addUserForm">
+                            <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="userName" placeholder="Nome do usuário" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="userEmail" placeholder="Email do usuário" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userSenha" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="userPassword" placeholder="Senha do usuário" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userSenha" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="userPassword" placeholder="Senha do usuário" required>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </form>
                         </div>
                     </div>
                     </div>
-                </div>
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Deivid</h5>
-                        <i class="bi bi-person-exclamation" style="font-size: 2rem; color: #E4405F;" ></i>
-                        <p class="card-text"></p>
-                        <a href="#" class="dropdown-menu">Go somewhere</a>
-                        <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Configuração
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Atualizar login e senha</a></li>
-                            <li><a class="dropdown-item" href="#">Atualizar senha</a></li>
-                            <li><a class="dropdown-item" href="#">Atualizar reconhecimento facial</a></li>
-                            <li><a class="dropdown-item" href="#">Desativar</a></li>
-                        </ul>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+
                 </div>
             </main>
         </div>
@@ -372,7 +362,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
         integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"
         class="astro-vvvwv3sm"></script>
-    <script src="../Scripts/dashboard.js" class="astro-vvvwv3sm"></script>
+    <script src="../Scripts/usuarios.js" class="astro-vvvwv3sm"></script>
 </body>
 
 </html>
