@@ -1,0 +1,156 @@
+@ -0,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Endereço por CEP</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        .container {
+            background-color: #fff;
+            padding: 24px 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+            text-align: center;
+            width: 350px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        label {
+            font-weight: 600;
+            text-align: left;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input[readonly] {
+            background: #f0f0f0;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        button[type="button"] {
+            background-color: #f44336;
+            color: white;
+        }
+        button[type="button"]:hover {
+            background-color: #d32f2f;
+        }
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de Endereço</h1>
+        <form id="addressForm" autocomplete="off">
+            <span class="error-message" id="errorMsg"></span>
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" maxlength="8" required placeholder="Digite o CEP (8 dígitos)">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" name="rua" readonly>
+            <label for="numero">Número:</label>
+            <input type="text" id="numero" name="numero" placeholder="Digite o número">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" readonly>
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" readonly>
+            <label for="uf">Estado:</label>
+            <input type="text" id="uf" name="uf" readonly>
+            <button type="button" id="clearBtn">Limpar</button>
+        </form>
+    </div>
+
+    <script>
+        const cepInput = document.getElementById('cep');
+        const errorMsg = document.getElementById('errorMsg');
+        const fields = ['cep', 'rua', 'numero', 'bairro', 'cidade', 'uf'];
+
+        function limpaFormulario() {
+            fields.forEach(id => document.getElementById(id).value = '');
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+        }
+
+        function showError(message) {
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+        }
+
+        function hideError() {
+            errorMsg.textContent = '';
+            errorMsg.style.display = 'none';
+        }
+
+        cepInput.addEventListener('input', function() {
+            // Permite apenas números
+            this.value = this.value.replace(/\D/g, '');
+            hideError();
+        });
+
+        cepInput.addEventListener('blur', function() {
+            const cep = this.value.trim();
+
+            if (cep.length === 0) {
+                limpaFormulario();
+                return;
+            }
+
+            if (cep.length !== 8) {
+                showError('O CEP deve conter 8 dígitos.');
+                limpaFormulario();
+                cepInput.value = cep;
+                return;
+            }
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        showError('CEP não encontrado.');
+                        limpaFormulario();
+                        cepInput.value = cep;
+                        return;
+                    }
+                    hideError();
+                    document.getElementById('rua').value = data.logradouro || '';
+                    document.getElementById('bairro').value = data.bairro || '';
+                    document.getElementById('cidade').value = data.localidade || '';
+                    document.getElementById('uf').value = data.uf || '';
+                })
+                .catch(() => {
+                    showError('Erro ao buscar o CEP.');
+                });
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', limpaFormulario);
+    </script>
+</body>
+</html>
